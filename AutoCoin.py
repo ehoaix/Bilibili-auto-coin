@@ -1,11 +1,12 @@
 import urllib.request
 import urllib.parse
 import json
+import time
 
 # 在这里填你的csrt效验码
-csrf=''
+csrf='b0734b1f38e2f3ab276e57f2d18b14fd'
 # 在这里填上你的b站cookie
-cookie=""
+cookie=" _uuid=898B91F2-E50A-6843-3EE7-6BAA9AFC14BE97078infoc; buvid3=195C653B-23E7-461E-A2C1-83EA28D91417190959infoc; LIVE_BUVID=AUTO5615751130990552; CURRENT_FNVAL=16; stardustvideo=1; laboratory=1-1; rpdid=|(u)Yk)|))lY0J'ul~luYl)uY; CURRENT_QUALITY=112; bp_t_offset_11611487=379760321125681316; im_notify_type_11611487=0; INTVER=-1; sid=aceyho8d; DedeUserID=11611487; DedeUserID__ckMd5=862e7439cf3c2534; SESSDATA=bbb6608b%2C1599789662%2C6f221*31; bili_jct=b0734b1f38e2f3ab276e57f2d18b14fd; PVID=7; bsource=seo_baidu"
 
 def SeadAdd(Avcode,cookie,csrf):
     url = 'https://api.bilibili.com/x/web-interface/coin/add'
@@ -58,15 +59,20 @@ def Get_bangumi():
     return avlist
 
 if __name__ == '__main__':
+    f=open("log.txt",'a+')
+    localtime = time.asctime(time.localtime(time.time()))
     time=(50-Get_todayExp()['data'])/10
     Avlist=Get_bangumi()
     i=0
     while time!=0:
         if SeadAdd(Avlist[i], cookie, csrf) != 0:
             print('已经投过币了！')
+            f.write(str(localtime)+' 已经投过币了！\n')
             i+=1
         else:
             print(str(Avlist[i])+'投币成功')
+            f.write(str(localtime) + ' 投币成功'+str(Avlist[i])+"\n")
             i+=1
             time-=1
     print("你今天的投币经验机会已经使用完毕")
+    f.write(str(localtime) + ":你今天的投币经验机会已经使用完毕\n")
